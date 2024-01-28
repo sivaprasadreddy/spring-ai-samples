@@ -1,0 +1,22 @@
+package com.sivalabs.chatollama;
+
+import org.springframework.ai.chat.ChatClient;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+class ChatController {
+
+    private final ChatClient chatClient;
+
+    ChatController(ChatClient chatClient) {
+        this.chatClient = chatClient;
+    }
+
+    @GetMapping("/ai/chat")
+    String chat(@RequestParam(defaultValue = "Tell me a Java joke") String message) {
+        return chatClient.call(message);
+    }
+
+}
