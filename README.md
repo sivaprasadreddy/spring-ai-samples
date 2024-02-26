@@ -1,4 +1,4 @@
-# spring-ai-samples
+# Spring AI Samples
 
 
 ## Download docker images
