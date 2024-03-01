@@ -23,13 +23,18 @@ ext {
 }
 
 dependencies {
-    implementation platform("org.springframework.ai:spring-ai-bom:${springAiVersion}")
     implementation "org.springframework.boot:spring-boot-starter-web"
     implementation "org.springframework.ai:spring-ai-openai-spring-boot-starter"
     developmentOnly "org.springframework.boot:spring-boot-devtools"
     testImplementation "org.springframework.boot:spring-boot-starter-test"
     testImplementation "org.springframework.boot:spring-boot-testcontainers"
     testImplementation "org.testcontainers:junit-jupiter"
+}
+
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.ai:spring-ai-bom:${springAiVersion}"
+    }
 }
 
 tasks.named("test") {

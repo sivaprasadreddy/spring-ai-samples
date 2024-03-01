@@ -1,13 +1,12 @@
-package com.sivalabs.chatopenai;
+package com.sivalabs.aidemo;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class ChatOpenaiApplication {
+public class Application {
 
     public static void main(String[] args) {
-        SpringApplication.run(ChatOpenaiApplication.class, args);
+        SpringApplication.run(Application.class, args);
     }
-
 }

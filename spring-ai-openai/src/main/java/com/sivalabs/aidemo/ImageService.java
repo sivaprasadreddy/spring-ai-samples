@@ -1,4 +1,4 @@
-package com.sivalabs.chatopenai;
+package com.sivalabs.aidemo;
 
 import org.springframework.ai.image.ImageClient;
 import org.springframework.ai.image.ImageOptionsBuilder;
@@ -17,6 +17,7 @@ class ImageService {
     String generate(String instructions) {
         var options = ImageOptionsBuilder.builder()
                 .withHeight(1024).withWidth(1024)
+                .withResponseFormat("url")
                 .withModel("dall-e-3")
                 .build();
         ImagePrompt imagePrompt = new ImagePrompt(instructions, options);

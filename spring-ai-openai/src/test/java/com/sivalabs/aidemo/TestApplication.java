@@ -1,13 +1,16 @@
-package com.sivalabs.chatopenai;
+package com.sivalabs.aidemo;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.test.context.TestConfiguration;
 
 @TestConfiguration(proxyBeanMethods = false)
-public class TestChatOpenaiApplication {
+public class TestApplication {
 
     public static void main(String[] args) {
-        SpringApplication.from(ChatOpenaiApplication::main).with(TestChatOpenaiApplication.class).run(args);
+        SpringApplication
+                .from(Application::main)
+                .with(TestApplication.class)
+                .run(args);
     }
 
 }
