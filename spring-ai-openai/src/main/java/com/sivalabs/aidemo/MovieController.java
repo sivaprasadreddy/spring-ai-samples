@@ -29,7 +29,8 @@ class MovieController {
     DirectorResponse chat(@RequestParam String director) {
         var outputParser = new BeanOutputParser<>(DirectorResponse.class);
         var userPromptTemplate = new PromptTemplate(PROMPT_TEMPLATE);
-        var prompt = userPromptTemplate.create(Map.of("director", director, "format", outputParser.getFormat()));
+        Map<String, Object> model = Map.of("director", director, "format", outputParser.getFormat());
+        var prompt = userPromptTemplate.create(model);
         var response = chatClient.call(prompt);
         return outputParser.parse(response.getResult().getOutput().getContent());
     }
@@ -38,7 +39,8 @@ class MovieController {
     Map<String, Object> chatWithMapOutput(@RequestParam String director) {
         var outputParser = new MapOutputParser();
         var userPromptTemplate = new PromptTemplate(PROMPT_TEMPLATE);
-        var prompt = userPromptTemplate.create(Map.of("director", director, "format", outputParser.getFormat()));
+        Map<String, Object> model = Map.of("director", director, "format", outputParser.getFormat());
+        var prompt = userPromptTemplate.create(model);
         var response = chatClient.call(prompt);
         return outputParser.parse(response.getResult().getOutput().getContent());
     }
@@ -47,7 +49,8 @@ class MovieController {
     List<String> chatWithListOutput(@RequestParam String director) {
         var outputParser = new ListOutputParser(new DefaultConversionService());
         var userPromptTemplate = new PromptTemplate(PROMPT_TEMPLATE);
-        var prompt = userPromptTemplate.create(Map.of("director", director, "format", outputParser.getFormat()));
+        Map<String, Object> model = Map.of("director", director, "format", outputParser.getFormat());
+        var prompt = userPromptTemplate.create(model);
         var response = chatClient.call(prompt);
         return outputParser.parse(response.getResult().getOutput().getContent());
     }

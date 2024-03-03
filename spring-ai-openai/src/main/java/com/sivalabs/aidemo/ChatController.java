@@ -1,6 +1,7 @@
 package com.sivalabs.aidemo;
 
 import org.springframework.ai.chat.ChatClient;
+import org.springframework.ai.chat.ChatResponse;
 import org.springframework.ai.chat.messages.SystemMessage;
 import org.springframework.ai.chat.messages.UserMessage;
 import org.springframework.ai.chat.prompt.Prompt;
@@ -28,20 +29,22 @@ class ChatController {
     }
 
     @GetMapping("/ai/chat-with-prompt")
-    JokeResponse chatWithPrompt(@RequestParam String subject) {
-        var promptTemplate = new PromptTemplate("Tell me a joke about {subject}");
-        var prompt = promptTemplate.create(Map.of("subject", subject));
-        var response = chatClient.call(prompt).getResult().getOutput().getContent();
-        return new JokeResponse(response);
+    Map<String,String> chatWithPrompt(@RequestParam String subject) {
+        PromptTemplate promptTemplate = new PromptTemplate("Tell me a joke about {subject}");
+        Prompt prompt = promptTemplate.create(Map.of("subject", subject));
+        ChatResponse response = chatClient.call(prompt);
+        String answer = response.getResult().getOutput().getContent();
+        return Map.of( "answer", answer);
     }
 
     @GetMapping("/ai/chat-with-system-prompt")
-    JokeResponse chatWithSystemPrompt(@RequestParam String subject) {
-        var systemMessage = new SystemMessage("You are a sarcastic and funny chatbot");
-        var userMessage = new UserMessage("Tell me a joke about " + subject);
-        var prompt = new Prompt(List.of(systemMessage, userMessage));
-        var response = chatClient.call(prompt).getResult().getOutput().getContent();
-        return new JokeResponse(response);
+    Map<String,String> chatWithSystemPrompt(@RequestParam String subject) {
+        SystemMessage systemMessage = new SystemMessage("You are a sarcastic and funny chatbot");
+        UserMessage userMessage = new UserMessage("Tell me a joke about " + subject);
+        Prompt prompt = new Prompt(List.of(systemMessage, userMessage));
+        ChatResponse response = chatClient.call(prompt);
+        String answer = response.getResult().getOutput().getContent();
+        return Map.of( "answer", answer);
     }
 
 }

@@ -32,7 +32,7 @@ class RAGController {
     @GetMapping("/ai/rag/people")
     Person chatWithRag(@RequestParam String name) {
         List<Document> similarDocuments = vectorStore.similaritySearch(SearchRequest.query(name).withTopK(2));
-        String documents = similarDocuments.stream().map(Document::getContent).collect(Collectors.joining(System.lineSeparator()));
+        String information = similarDocuments.stream().map(Document::getContent).collect(Collectors.joining(System.lineSeparator()));
 
         var systemPromptTemplate = new SystemPromptTemplate("""
               You are a helpful assistant.
@@ -41,7 +41,7 @@ class RAGController {
               {information}
               """);
         var systemMessage = systemPromptTemplate.createMessage(
-                Map.of("information", documents));
+                Map.of("information", information));
 
         var outputParser = new BeanOutputParser<>(Person.class);
         PromptTemplate userMessagePromptTemplate = new PromptTemplate("""
