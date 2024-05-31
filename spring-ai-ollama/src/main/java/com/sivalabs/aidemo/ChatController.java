@@ -1,6 +1,6 @@
 package com.sivalabs.aidemo;
 
-import org.springframework.ai.chat.ChatClient;
+import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.messages.SystemMessage;
 import org.springframework.ai.chat.messages.UserMessage;
 import org.springframework.ai.chat.prompt.Prompt;
@@ -17,13 +17,13 @@ class ChatController {
 
     private final ChatClient chatClient;
 
-    ChatController(ChatClient chatClient) {
-        this.chatClient = chatClient;
+    ChatController(ChatClient.Builder chatClientBuilder) {
+        this.chatClient = chatClientBuilder.build();
     }
 
     @GetMapping("/ai/chat")
     Map<String,String> chat(@RequestParam String question) {
-        var response = chatClient.call(question);
+        var response = chatClient.prompt().user(question).call().content();
         return Map.of("question", question, "answer", response);
     }
 
@@ -31,7 +31,7 @@ class ChatController {
     JokeResponse chatWithPrompt(@RequestParam String subject) {
         var promptTemplate = new PromptTemplate("Tell me a joke about {subject}");
         var prompt = promptTemplate.create(Map.of("subject", subject));
-        var response = chatClient.call(prompt).getResult().getOutput().getContent();
+        var response = chatClient.prompt(prompt).call().content();
         return new JokeResponse(response);
     }
 
@@ -40,7 +40,7 @@ class ChatController {
         var systemMessage = new SystemMessage("You are a sarcastic and funny chatbot");
         var userMessage = new UserMessage("Tell me a joke about " + subject);
         var prompt = new Prompt(List.of(systemMessage, userMessage));
-        var response = chatClient.call(prompt).getResult().getOutput().getContent();
+        var response = chatClient.prompt(prompt).call().content();
         return new JokeResponse(response);
     }
 

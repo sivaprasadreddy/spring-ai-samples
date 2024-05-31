@@ -1,6 +1,6 @@
 package com.sivalabs.aidemo;
 
-import org.springframework.ai.image.ImageClient;
+import org.springframework.ai.image.ImageModel;
 import org.springframework.ai.image.ImageOptionsBuilder;
 import org.springframework.ai.image.ImagePrompt;
 import org.springframework.ai.image.ImageResponse;
@@ -8,10 +8,10 @@ import org.springframework.stereotype.Service;
 
 @Service
 class ImageService {
-    private final ImageClient imageClient;
+    private final ImageModel imageModel;
 
-    ImageService(ImageClient imageClient) {
-        this.imageClient = imageClient;
+    ImageService(ImageModel imageModel) {
+        this.imageModel = imageModel;
     }
 
     String generate(String instructions) {
@@ -21,7 +21,7 @@ class ImageService {
                 .withModel("dall-e-3")
                 .build();
         ImagePrompt imagePrompt = new ImagePrompt(instructions, options);
-        ImageResponse imageResponse = imageClient.call(imagePrompt);
+        ImageResponse imageResponse = imageModel.call(imagePrompt);
         return imageResponse.getResult().getOutput().getUrl();
     }
 }

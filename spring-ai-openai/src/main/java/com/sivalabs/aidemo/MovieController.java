@@ -1,10 +1,10 @@
 package com.sivalabs.aidemo;
 
-import org.springframework.ai.chat.ChatClient;
+import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.prompt.PromptTemplate;
-import org.springframework.ai.parser.BeanOutputParser;
-import org.springframework.ai.parser.ListOutputParser;
-import org.springframework.ai.parser.MapOutputParser;
+import org.springframework.ai.converter.BeanOutputConverter;
+import org.springframework.ai.converter.ListOutputConverter;
+import org.springframework.ai.converter.MapOutputConverter;
 import org.springframework.core.convert.support.DefaultConversionService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -17,8 +17,8 @@ import java.util.Map;
 class MovieController {
     private final ChatClient chatClient;
 
-    MovieController(ChatClient chatClient) {
-        this.chatClient = chatClient;
+    MovieController(ChatClient.Builder chatClientBuilder) {
+        this.chatClient = chatClientBuilder.build();
     }
     private static final String PROMPT_TEMPLATE = """
         What are the best movies directed by {director}?
@@ -27,32 +27,32 @@ class MovieController {
         """;
     @GetMapping("/ai/chat/movies")
     DirectorResponse chat(@RequestParam String director) {
-        var outputParser = new BeanOutputParser<>(DirectorResponse.class);
+        var outputConverter = new BeanOutputConverter<>(DirectorResponse.class);
         var userPromptTemplate = new PromptTemplate(PROMPT_TEMPLATE);
-        Map<String, Object> model = Map.of("director", director, "format", outputParser.getFormat());
+        Map<String, Object> model = Map.of("director", director, "format", outputConverter.getFormat());
         var prompt = userPromptTemplate.create(model);
-        var response = chatClient.call(prompt);
-        return outputParser.parse(response.getResult().getOutput().getContent());
+        var response = chatClient.prompt(prompt).call().content();
+        return outputConverter.convert(response);
     }
 
     @GetMapping("/ai/chat/movies-as-map")
     Map<String, Object> chatWithMapOutput(@RequestParam String director) {
-        var outputParser = new MapOutputParser();
+        var outputConverter = new MapOutputConverter();
         var userPromptTemplate = new PromptTemplate(PROMPT_TEMPLATE);
-        Map<String, Object> model = Map.of("director", director, "format", outputParser.getFormat());
+        Map<String, Object> model = Map.of("director", director, "format", outputConverter.getFormat());
         var prompt = userPromptTemplate.create(model);
-        var response = chatClient.call(prompt);
-        return outputParser.parse(response.getResult().getOutput().getContent());
+        var response = chatClient.prompt(prompt).call().content();
+        return outputConverter.convert(response);
     }
 
     @GetMapping("/ai/chat/movies-as-list")
     List<String> chatWithListOutput(@RequestParam String director) {
-        var outputParser = new ListOutputParser(new DefaultConversionService());
+        var outputConverter = new ListOutputConverter(new DefaultConversionService());
         var userPromptTemplate = new PromptTemplate(PROMPT_TEMPLATE);
-        Map<String, Object> model = Map.of("director", director, "format", outputParser.getFormat());
+        Map<String, Object> model = Map.of("director", director, "format", outputConverter.getFormat());
         var prompt = userPromptTemplate.create(model);
-        var response = chatClient.call(prompt);
-        return outputParser.parse(response.getResult().getOutput().getContent());
+        var response = chatClient.prompt(prompt).call().content();
+        return outputConverter.convert(response);
     }
 }
 

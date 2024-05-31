@@ -3,7 +3,7 @@ package com.sivalabs.aidemo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.ai.document.Document;
-import org.springframework.ai.embedding.EmbeddingClient;
+import org.springframework.ai.embedding.EmbeddingModel;
 import org.springframework.ai.reader.TextReader;
 import org.springframework.ai.vectorstore.SimpleVectorStore;
 import org.springframework.ai.vectorstore.VectorStore;
@@ -24,8 +24,8 @@ class AppConfig {
     private Resource resource;
 
     @Bean
-    VectorStore vectorStore(EmbeddingClient embeddingClient) {
-        return new SimpleVectorStore(embeddingClient);
+    VectorStore vectorStore(EmbeddingModel embeddingModel) {
+        return new SimpleVectorStore(embeddingModel);
     }
 
     @Bean
