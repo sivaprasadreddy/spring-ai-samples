@@ -23,7 +23,7 @@ public class TestApplication {
 	@RestartScope
 	@Scope("singleton") // needed because of https://github.com/spring-projects/spring-boot/issues/35786
 	GenericContainer<?> ollama(DynamicPropertyRegistry properties) {
-		var ollama = new GenericContainer<>("ghcr.io/thomasvitale/ollama-llama2")
+		var ollama = new GenericContainer<>("ghcr.io/thomasvitale/ollama-llama3")
 				.withExposedPorts(11434);
 		properties.add("spring.ai.ollama.base-url",
 				() -> "http://%s:%s".formatted(ollama.getHost(), ollama.getMappedPort(11434)));
