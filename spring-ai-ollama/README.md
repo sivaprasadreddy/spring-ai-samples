@@ -1,4 +1,4 @@
-# Chat Ollama
+# Spring AI with Ollama
 
 * Download and install from https://ollama.ai/
-* Run `ollama run llama2`
+* Run `ollama run llama3`
