@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<body>
+<div layout:fragment="content">
+    <h2>Generate Image</h2>
+
+    <div id="chat" class="pt-3">
+        <form id="form" class="form" method="post"
+            th:hx-post="@{/generate-image}" hx-target="#generated-img">
+            <div class="mb-3">
+                <label for="instructions" class="form-label">
+                    <strong>Describe the image you want to generate</strong></label>
+                <textarea class="form-control" id="instructions"
+                          name="instructions" rows="5"></textarea>
+            </div>
+            <button class="btn btn-primary" type="submit">Generate Image</button>
+        </form>
+    </div>
+
+    <div id="generated-img" class="p-3"></div>
+
+</div>
+</body>
+</html>

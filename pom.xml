@@ -18,5 +18,6 @@
     <modules>
         <module>spring-ai-ollama</module>
         <module>spring-ai-openai</module>
+        <module>spring-ai-showcase</module>
     </modules>
 </project>
