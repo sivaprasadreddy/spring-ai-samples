@@ -30,8 +30,8 @@ class VectorStoreConfig {
     ApplicationRunner intVectorStore(VectorStore vectorStore) {
         return args -> {
 
-            logger.info("Loading .html files as Documents");
             urls.forEach(url -> {
+                logger.info("Loading document from {}", url);
                 try {
                     load(vectorStore, url);
                 } catch (MalformedURLException e) {
