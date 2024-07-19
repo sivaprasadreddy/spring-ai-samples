@@ -1,3 +1,6 @@
 <div class="chat-answer-text">
-    <span th:text="${answer}"></span>
+    <label for="answer" class="form-label"><strong>Answer</strong></label>
+    <textarea class="form-control" id="answer" name="answer"
+              readonly
+              rows="15">[(${answer})]</textarea>
 </div>
