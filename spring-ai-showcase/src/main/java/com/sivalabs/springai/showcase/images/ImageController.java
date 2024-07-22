@@ -10,9 +10,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
+@RequestMapping("/generate-image")
 @Slf4j
 class ImageController {
     private final ImageModel imageModel;
@@ -21,19 +23,19 @@ class ImageController {
         this.imageModel = imageModel;
     }
 
-    @GetMapping("/generate-image")
-    String generateImageForm() {
-        return "generate-image";
+    @GetMapping
+    String generateImages() {
+        return "gen-images/index";
     }
 
-    @PostMapping("/generate-image")
+    @PostMapping("/openai")
     @HxRequest
-    String generateImage(@RequestParam String instructions, Model model) {
+    String generateImageWithOpenAI(@RequestParam String instructions, Model model) {
         log.info("Generating Image with Instructions: {}", instructions);
         var url = this.generate(instructions);
         log.info("Generated image URL: {}", url);
         model.addAttribute("url", url);
-        return "partials/image";
+        return "gen-images/partial-image";
     }
 
     String generate(String instructions) {

@@ -1,4 +1,4 @@
-package com.sivalabs.springai.showcase.tutor;
+package com.sivalabs.springai.showcase.rag;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -48,6 +48,7 @@ class VectorStoreConfig {
         List<Document> documents = new ArrayList<>(htmlReader.get());
 
         logger.info("Creating and storing Embeddings from Documents");
+        //TODO; Need to tune the splitter
         var textSplitter = new TokenTextSplitter();
         vectorStore.add(textSplitter.split(documents));
     }

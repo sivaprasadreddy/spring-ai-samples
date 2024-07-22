@@ -6,11 +6,12 @@
       layout:decorate="~{layout}">
 <body>
 <div layout:fragment="content">
-    <h2>Generate Image</h2>
 
-    <div id="chat" class="pt-3">
+    <div id="gen-img-openai" class="pt-3">
+        <h2>Generate Image using OpenAI</h2>
         <form id="form" class="form" method="post"
-            th:hx-post="@{/generate-image}" hx-target="#generated-img">
+              th:hx-post="@{/generate-image/openai}"
+              hx-target="#generated-img">
             <div class="mb-3">
                 <label for="instructions" class="form-label">
                     <strong>Describe the image you want to generate</strong></label>
@@ -20,9 +21,7 @@
             <button class="btn btn-primary" type="submit">Generate Image</button>
         </form>
     </div>
-
     <div id="generated-img" class="p-3"></div>
-
 </div>
 </body>
 </html>
