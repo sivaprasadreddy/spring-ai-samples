@@ -25,7 +25,7 @@ class VectorStoreConfig {
             "https://www.sivalabs.in/mastering-spring-boot-in-5-stages/",
             "https://www.sivalabs.in/spring-boot-jooq-tutorial-getting-started/"
     );
-    
+
     @Bean
     ApplicationRunner intVectorStore(VectorStore vectorStore) {
         return args -> {
@@ -38,7 +38,7 @@ class VectorStoreConfig {
                     throw new RuntimeException(e);
                 }
             });
-            
+
         };
     }
 
@@ -48,8 +48,19 @@ class VectorStoreConfig {
         List<Document> documents = new ArrayList<>(htmlReader.get());
 
         logger.info("Creating and storing Embeddings from Documents");
-        //TODO; Need to tune the splitter
-        var textSplitter = new TokenTextSplitter();
+
+        int defaultChunkSize = 2000; //default 800
+        int minChunkSizeChars = 350;
+        int minChunkLengthToEmbed = 5;
+        int maxNumChunks = 10000;
+        boolean keepSeparator = true;
+        var textSplitter = new TokenTextSplitter(
+                defaultChunkSize,
+                minChunkSizeChars,
+                minChunkLengthToEmbed,
+                maxNumChunks,
+                keepSeparator
+        );
         vectorStore.add(textSplitter.split(documents));
     }
 }
