@@ -1,0 +1,26 @@
+<div id="products" class="pt-2" hx-swap-oob="true">
+<div class="row row-cols-1 row-cols-md-5">
+    <div th:each="product : ${ products}">
+        <div class="col mb-3">
+            <div class="card h-100 product">
+                <!--<img th:src="${product.imageUrl}"
+                     src="/images/books.png"
+                     alt="Product Image"
+                     class="card-img-top"
+                     height="300" width="200"
+                />-->
+                <div class="card-body">
+                    <h6 class="card-title"
+                        th:text="${product.name}">product.name</h6>
+                    <p class="card-text"
+                       th:text="${'Code: '+product.code}">product.code</p>
+                    <p class="card-text"
+                       th:text="${'Price: $'+product.price}">product.price</p>
+                    <p class="card-text"
+                       th:text="${'Available: '+product.available}">product.available</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>

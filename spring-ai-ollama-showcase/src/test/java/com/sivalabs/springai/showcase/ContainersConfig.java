@@ -5,6 +5,7 @@ import org.springframework.boot.testcontainers.service.connection.ServiceConnect
 import org.springframework.context.annotation.Bean;
 import org.testcontainers.chromadb.ChromaDBContainer;
 import org.testcontainers.containers.PostgreSQLContainer;
+import org.testcontainers.ollama.OllamaContainer;
 import org.testcontainers.utility.DockerImageName;
 
 @TestConfiguration(proxyBeanMethods = false)
@@ -12,7 +13,13 @@ public class ContainersConfig {
     @Bean
     @ServiceConnection
     PostgreSQLContainer<?> postgres() {
-        return new PostgreSQLContainer<>(DockerImageName.parse("postgres:17"));
+        return new PostgreSQLContainer<>(DockerImageName.parse("postgres:16"));
+    }
+
+    @Bean
+    @ServiceConnection
+    OllamaContainer ollama() {
+        return new OllamaContainer(DockerImageName.parse("ollama/ollama"));
     }
 
     @Bean
