@@ -24,7 +24,7 @@ class WebUrlsRagController {
     public WebUrlsRagController(ChatClient.Builder builder,
                                 VectorStore vectorStore) {
         this.chatClient = builder
-                .defaultAdvisors(new QuestionAnswerAdvisor(vectorStore, SearchRequest.defaults()))
+                .defaultAdvisors(new QuestionAnswerAdvisor(vectorStore, SearchRequest.builder().build()))
                 .build();
     }
 

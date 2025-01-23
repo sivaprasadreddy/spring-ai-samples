@@ -50,7 +50,7 @@ class ProductController {
         ChatResponse response = chatClient.prompt(new Prompt(
                 List.of(userMessage),
                 OpenAiChatOptions.builder()
-                        .withFunctions(Set.of(
+                        .functions(Set.of(
                                 "productAvailabilityEnquiryFn",
                                 "productAvailabilityUpdateFn")
                         )

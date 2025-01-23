@@ -16,9 +16,9 @@ class ImageService {
 
     String generate(String instructions) {
         var options = ImageOptionsBuilder.builder()
-                .withHeight(1024).withWidth(1024)
-                .withResponseFormat("url")
-                .withModel("dall-e-3")
+                .height(1024).width(1024)
+                .responseFormat("url")
+                .model("dall-e-3")
                 .build();
         ImagePrompt imagePrompt = new ImagePrompt(instructions, options);
         ImageResponse imageResponse = imageModel.call(imagePrompt);
