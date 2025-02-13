@@ -1,6 +1,5 @@
 package com.sivalabs.springai.showcase.catalog;
 
-import io.github.wimdeblauwe.htmx.spring.boot.mvc.HtmxResponse;
 import io.github.wimdeblauwe.htmx.spring.boot.mvc.HxRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,11 +15,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.View;
+import org.springframework.web.servlet.view.FragmentsRendering;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 @Controller
 @RequestMapping("/fn-calling")
@@ -44,7 +43,7 @@ class ProductController {
 
     @HxRequest
     @PostMapping("/chat")
-    HtmxResponse sendMessage(@RequestParam("question") String question){
+    View sendMessage(@RequestParam("question") String question){
         log.info("Received question: {}", question);
         UserMessage userMessage = new UserMessage(question);
         ChatResponse response = chatClient.prompt(new Prompt(
@@ -58,10 +57,8 @@ class ProductController {
 
         String answer = response.getResult().getOutput().getText();
         log.info("Answer: {}", answer);
-        return HtmxResponse.builder()
-                .view(new ModelAndView("fn-calling/partial-chat-answer", Map.of("answer", answer)))
-                .view(new ModelAndView("fn-calling/partial-products",
-                        Map.of("products", getProducts())))
+        return FragmentsRendering.with("fn-calling/partial-chat-answer", Map.of("answer", answer))
+                .fragment("fn-calling/partial-products", Map.of("products", getProducts()))
                 .build();
     }
 
