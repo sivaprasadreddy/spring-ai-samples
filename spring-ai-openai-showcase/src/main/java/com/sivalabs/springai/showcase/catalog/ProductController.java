@@ -50,13 +50,13 @@ class ProductController {
         ChatResponse response = chatClient.prompt(new Prompt(
                 List.of(userMessage),
                 OpenAiChatOptions.builder()
-                        .functions(Set.of(
-                                "productAvailabilityEnquiryFn",
-                                "productAvailabilityUpdateFn")
+                        .toolNames(
+                            "productAvailabilityEnquiryFn",
+                            "productAvailabilityUpdateFn"
                         )
                         .build())).call().chatResponse();
 
-        String answer = response.getResult().getOutput().getContent();
+        String answer = response.getResult().getOutput().getText();
         log.info("Answer: {}", answer);
         return HtmxResponse.builder()
                 .view(new ModelAndView("fn-calling/partial-chat-answer", Map.of("answer", answer)))

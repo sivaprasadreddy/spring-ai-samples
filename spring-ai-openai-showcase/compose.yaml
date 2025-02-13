@@ -8,6 +8,6 @@ services:
     ports:
       - '5432'
   chroma:
-    image: chromadb/chroma:latest
+    image: ghcr.io/chroma-core/chroma:0.5.20
     ports:
       - "8200:8000"

@@ -41,7 +41,7 @@ class WebUrlsRagController {
                 .prompt()
                 .user(question)
                 .call()
-                .chatResponse().getResult().getOutput().getContent();
+                .chatResponse().getResult().getOutput().getText();
         log.info("Answer: {}", answer);
         model.addAttribute("answer", answer);
         return "rag/partial-chat-answer";
